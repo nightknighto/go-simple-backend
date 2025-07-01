@@ -16,8 +16,10 @@ func initializeRouter() *mux.Router {
 
 func handleRoutes(r *mux.Router) {
 	r.HandleFunc("/products", getAllProductsHandler).Methods(http.MethodGet, http.MethodHead)
-	r.HandleFunc("/products/{id}", getProductHandler).Methods(http.MethodGet, http.MethodHead)
 	r.HandleFunc("/products", createProductHandler).Methods(http.MethodPost)
+	r.HandleFunc("/products/{id}", getProductHandler).Methods(http.MethodGet, http.MethodHead)
+	r.HandleFunc("/products/{id}", updateProductHandler).Methods(http.MethodPut)
+	r.HandleFunc("/products/{id}", deleteProductHandler).Methods(http.MethodDelete)
 }
 
 func startServer(port string, r *mux.Router) {

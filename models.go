@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"errors"
 	"fmt"
 	"log"
 )
@@ -73,4 +74,40 @@ func createProduct(db *sql.DB, p *Product) (int, error) {
 	}
 
 	return int(insertedId), nil
+}
+
+func updateProduct(db *sql.DB, p Product) error {
+	result, e := db.Exec("UPDATE products SET name=?, price=?, quantity=? WHERE id=?", p.Name, p.Price, p.Quantity, p.Id)
+	if e != nil {
+		return e
+	}
+	
+	rowsAffected, e := result.RowsAffected()
+	if e != nil {
+		return e
+	}
+	
+	if rowsAffected == 0 {
+		return errors.New("not found")
+	}
+
+	return nil
+}
+
+func deleteProduct(db *sql.DB, id int) error {
+	result, e := db.Exec("DELETE FROM products WHERE id=?", id)
+	if e != nil {
+		return e
+	}
+
+	rowsAffected, e := result.RowsAffected()
+	if e != nil {
+		return e
+	}
+	
+	if rowsAffected == 0 {
+		return errors.New("not found")
+	}
+
+	return nil
 }
