@@ -60,3 +60,17 @@ func getProduct(db *sql.DB, id int) (Product, error) {
 
 	return p, nil
 }
+
+func createProduct(db *sql.DB, p *Product) (int, error) {
+	result, e := db.Exec("INSERT INTO products(name, quantity, price) VALUES (?,?,?)", p.Name, p.Quantity, p.Price)
+	if e != nil {
+		return 0, e
+	}
+
+	insertedId, e := result.LastInsertId()
+	if e != nil {
+		return 0, e
+	}
+
+	return int(insertedId), nil
+}
