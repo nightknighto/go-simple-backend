@@ -7,9 +7,8 @@ import (
 	"log"
 )
 
-func initializeDatabase() *sql.DB {
+func initializeDatabase(DbUser string, DbPassword string, DbName string) *sql.DB {
 	connectionString := fmt.Sprintf("%v:%v@tcp(localhost:3306)/%v", DbUser, DbPassword, DbName)
-
 	db, e := sql.Open("mysql", connectionString)
 
 	if e != nil {

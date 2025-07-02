@@ -11,9 +11,8 @@ var db *sql.DB
 var router *mux.Router
 
 func main() {
-	db = initializeDatabase()
+	db = initializeDatabase(DbUser, DbPassword, DbName)
 	router = initializeRouter()
-	handleRoutes(router)
 
 	startServer(":10000", router)
 }
